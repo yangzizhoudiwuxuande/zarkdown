@@ -29,7 +29,7 @@ Homepage = "https://github.com/yangzizhoudiwuxuande/zarkdown"
 name = "zarkdown"
 python = "3.14"                           # 根据实际情况修改
 identifier = "com.yangzizhoudiwuxuande.zarkdown"
-manager = "pip"   # 新增这一行
+manager = "requirements.txt"   # 改了这里
 
 [[tool.pyappdist.launchers]]
 name = "zarkdown"
