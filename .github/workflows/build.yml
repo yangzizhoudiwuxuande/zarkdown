@@ -1,0 +1,45 @@
+# .github/workflows/build.yml
+name: Build macOS Installer
+
+# 触发条件：当你推送代码到 main 分支，或创建一个新 Release 时触发
+on:
+  push:
+    branches: [ "main" ]
+  release:
+    types: [ "published" ]
+
+# 定义工作流任务
+jobs:
+  build-pkg:
+    # 必须在 macOS  runner 上运行，才能生成 .pkg 文件[reference:2]
+    runs-on: macos-latest
+
+    steps:
+      # 1. 拉取你的仓库代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 设置 Python 环境[reference:3]
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14' # 请确认这里与你的 python 版本一致
+
+      # 3. 安装项目依赖
+      # 如果你的项目有 requirements.txt，可以用下面这行安装[reference:4]
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyappdist   # 安装打包工具
+
+      # 4. 执行打包，生成 .pkg 文件[reference:5]
+      - name: Build .pkg with pyappdist
+        run: |
+          pyappdist build
+
+      # 5. 上传构建产物（.pkg 文件）[reference:6]
+      - name: Upload .pkg artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zarkdown-installer
+          path: appdist/macos/dist/*.pkg
