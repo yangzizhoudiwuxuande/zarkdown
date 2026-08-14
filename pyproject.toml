@@ -3,20 +3,38 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "zarkdown"           # 你的包在PyPI上的名字，必须唯一
-version = "2.0.1"           # 当前版本号
+name = "zarkdown"
+version = "2.0.1"
 authors = [
-    { name="yangzizhoudiwuxuande", email="yangzizhou2026@outlook.com" },
+    { name = "yangzizhoudiwuxuande", email = "yangzizhou2026@outlook.com" },
 ]
 description = "Zarkdown - 键盘友好型纯文本标记语言"
 readme = "README.md"
+license = { text = "MIT" }
 requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
+[project.scripts]
+zarkdown = "zarkdown.core:main"
+
 [project.urls]
-"Homepage" = "https://github.com/yangzizhoudiwuxuande/zarkdown"
+Homepage = "https://github.com/yangzizhoudiwuxuande/zarkdown"
 "Bug Tracker" = "https://github.com/yangzizhoudiwuxuande/zarkdown/issues"
+
+# ===== 以下是 pyappdist 所需配置 =====
+[tool.pyappdist]
+name = "zarkdown"
+python = "3.14"                           # 根据实际情况修改
+identifier = "com.yangzizhoudiwuxuande.zarkdown"
+
+[[tool.pyappdist.launchers]]
+name = "zarkdown"
+entry = "zarkdown.core:main"
+
+[[tool.pyappdist.targets]]
+name = "macos"
+platform = "macos-aarch64"                # Apple Silicon 用 macos-aarch64，Intel 用 macos-x86_64
+format = "pkg"
