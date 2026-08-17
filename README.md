@@ -110,7 +110,7 @@ zarkdown my_note.zkdn -f latex
 
 ## 其它安装方式
 ### 使用发行版
-发行版中有.tar.gz和.pkg两种形式。如果使用.pkg，在“应用程序”文件夹中会出现zarkdown.app，如果双击zarkdown.app会发现无法打开。这是因为zarkdown没有图形化界面。
+发行版中有.tar.gz、.pkg和.dmg三种形式。如果使用.pkg，在“应用程序”文件夹中会出现zarkdown.app，如果双击zarkdown.app会发现无法打开。这是因为zarkdown没有图形化界面。如果你使用zarkdown.dmg，请打开此磁盘映像，并打开磁盘映像中的.pkg。如果你使用zarkdown-2.0.1.dmg，那么你需要将zarkdown.app拖到“应用程序”文件夹（替身）中。
 ### 使用Homebrew
 暂时无法使用`brew install zarkdown`进行安装，但是可以
 ```bash
