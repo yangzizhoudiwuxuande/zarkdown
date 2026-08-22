@@ -184,3 +184,6 @@ Happy Writing with Zarkdown!
 
 ## 联系
 yangzizhou2026@outlook.com
+
+## Zarkdown解读器
+在另一个名叫ZarkdownApp的仓库有Zarkdown解读器App
