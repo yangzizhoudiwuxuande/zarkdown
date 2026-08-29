@@ -185,5 +185,7 @@ Happy Writing with Zarkdown!
 ## 联系
 yangzizhou2026@outlook.com
 
+QQ交流群：1106476845
+
 ## Zarkdown解读器
 在另一个名叫ZarkdownApp的仓库有Zarkdown解读器App
