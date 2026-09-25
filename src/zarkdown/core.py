@@ -15,6 +15,11 @@ import time
 import webbrowser
 
 # ------------------------------------------------------------
+# 版本号
+# ------------------------------------------------------------
+__version__ = "2.0.3"
+
+# ------------------------------------------------------------
 # 可选依赖：pypandoc（用于 PDF/DOCX/LaTeX 导出）
 # ------------------------------------------------------------
 try:
@@ -56,9 +61,9 @@ def validate_zarkdown(text):
             if stripped == '~':
                 in_code_block = False
                 continue
-            continue  # 代码块内不检查
+            continue
         
-        # ---- 跳过分割线和表格分隔符（以 5 个以上 - 开头） ----
+        # ---- 跳过分割线和表格分隔符 ----
         if re.match(r'^-{5,}', stripped):
             continue
         
@@ -116,7 +121,6 @@ def validate_zarkdown(text):
         while i < n:
             ch = line[i]
             
-            # 超链接模式：*文字*(
             if ch == '*' and i + 1 < n:
                 j = i + 1
                 while j < n and line[j] != '*':
@@ -142,7 +146,6 @@ def validate_zarkdown(text):
                     i += 1
                     continue
             
-            # 图片模式：$图片名$(
             if ch == '$' and i + 1 < n:
                 j = i + 1
                 while j < n and line[j] != '$':
@@ -191,7 +194,7 @@ def escape_text(text):
     """将 ^符号 替换为不可打印占位符"""
     def repl(m):
         return f'\x00ESC_{ord(m.group(1))}\x00'
-    return re.sub(r'\^([/\\?~\-*$•|!<\[\]])', repl, text)   # 不再包含 &
+    return re.sub(r'\^([/\\?~\-*$•|!<\[\]])', repl, text)
 
 
 def unescape_text(text):
@@ -327,7 +330,7 @@ def zarkdown_to_html(text):
             result.append(f'<pre><code class="language-{lang}">{"\n".join(code_lines)}</code></pre>')
             continue
 
-        # ---- 表格（支持多行单元格） ----
+        # ---- 表格 ----
         if re.match(r'^\|.*\|$', escaped_line) and i + 2 < len(lines):
             next_esc = escape_text(lines[i+1])
             after_esc = escape_text(lines[i+2]) if i+2 < len(lines) else ''
@@ -390,7 +393,7 @@ def zarkdown_to_html(text):
         elif re.match(r'^/ ', escaped_line):
             result.append(f'<h1>{parse_inline(escaped_line[2:])}</h1>')
         
-        # ---- 无序列表（!开头） ----
+        # ---- 无序列表 ----
         elif escaped_line.startswith('!'):
             items = []
             while i < len(lines) and escape_text(lines[i]).startswith('!'):
@@ -415,12 +418,9 @@ def zarkdown_to_html(text):
                 result.append('')
         i += 1
 
-    # 拼接 HTML 内容
     html_content = '\n'.join(result)
-    # 将占位符 [Z_BR] 替换为真正的 <br>
     html_content = html_content.replace('[Z_BR]', '<br>')
 
-    # 返回完整 HTML 页面
     return f'''<!DOCTYPE html>
 <html>
 <head>
@@ -499,12 +499,15 @@ def zarkdown_to_html(text):
 
 
 # ============================================================
-# 5. 命令行入口（集成错误检查器，支持 --no-check）
+# 5. 命令行入口
 # ============================================================
 
 def main():
-    parser = argparse.ArgumentParser(description="将 Zarkdown 文件转为 HTML/PDF/DOCX/LaTeX")
-    parser.add_argument("input", help="输入的 .zkdn 文件路径")
+    parser = argparse.ArgumentParser(
+        description="将 Zarkdown 文件转为 HTML/PDF/DOCX/LaTeX",
+        epilog="示例: zarkdown input.zkdn -o output.html"
+    )
+    parser.add_argument("input", nargs="?", help="输入的 .zkdn 文件路径")
     parser.add_argument("-o", "--output", help="输出的文件路径（默认：根据输入文件名和格式自动生成）", default=None)
     parser.add_argument("-w", "--watch", action="store_true", help="监听文件变化，自动重新转换并刷新浏览器（仅 HTML 格式）")
     parser.add_argument("-f", "--format", 
@@ -512,7 +515,15 @@ def main():
                         default='html',
                         help="输出格式: html, pdf, docx, latex (默认: html)")
     parser.add_argument("--no-check", action="store_true", help="跳过语法错误检查（不推荐）")
+    parser.add_argument("-v", "--version", action="version", 
+                        version=f"Zarkdown {__version__}",
+                        help="显示版本号并退出")
     args = parser.parse_args()
+
+    # 如果既没有 input 也没有 -v，则显示帮助
+    if args.input is None:
+        parser.print_help()
+        sys.exit(0)
 
     # 自动生成输出文件名
     if args.output is None:
@@ -533,14 +544,12 @@ def main():
             with open(args.input, 'r', encoding='utf-8-sig') as f:
                 content = f.read()
             
-            # ---- 执行错误检查（除非用户指定 --no-check） ----
             if not args.no_check:
                 errors = validate_zarkdown(content)
                 if errors:
                     print_errors(errors)
-                    return  # 停止转换
+                    return
             
-            # ---- 正常转换 ----
             html = zarkdown_to_html(content)
             
             if args.format == 'html':
@@ -575,7 +584,6 @@ def main():
         except Exception as e:
             print(f"❌ 转换出错: {e}")
 
-    # 首次转换
     convert()
 
     if args.watch and args.format == 'html':
