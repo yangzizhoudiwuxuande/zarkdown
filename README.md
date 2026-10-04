@@ -183,6 +183,18 @@ brew install zarkdown
 
 
 ---
+## 常见问题
+
+### Zarkdown 和 Markdown 有什么区别？
+
+Zarkdown 的语法符号全部位于键盘主键区，无需按 Shift 键，写作更流畅。同时每个符号有明确唯一的用途，不存在歧义。
+
+### 如何从 Markdown 迁移到 Zarkdown？
+
+目前还没有自动转换工具，但 Zarkdown 语法简单直观，手动转换成本很低。未来可能会提供
+
+---
+
 
 Happy Writing with Zarkdown!
 
