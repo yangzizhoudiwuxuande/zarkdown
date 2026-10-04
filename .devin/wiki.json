@@ -1,0 +1,30 @@
+{
+  "repo_notes": [
+    {
+      "content": "请用中文生成文档，重点讲解核心逻辑。这是一个纯文本处理工具，核心功能在 src/ 目录下。",
+      "author": "yangzizhoudiwuxuande"
+    }
+  ],
+  "pages": [
+    {
+      "title": "项目简介",
+      "purpose": "介绍 Zarkdown 的整体目标和主要功能。",
+      "parent": null
+    },
+    {
+      "title": "安装与使用",
+      "purpose": "提供安装步骤和基本使用示例。",
+      "parent": null
+    },
+    {
+      "title": "核心模块详解",
+      "purpose": "深入讲解 src/ 目录下的核心逻辑和实现原理。",
+      "parent": null
+    },
+    {
+      "title": "常见问题",
+      "purpose": "列出使用过程中的常见问题及解决方案。",
+      "parent": null
+    }
+  ]
+}
