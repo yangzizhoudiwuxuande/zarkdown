@@ -5,6 +5,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/yangzizhoudiwuxuande/zarkdown)](https://github.com/yangzizhoudiwuxuande/zarkdown/stargazers)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/owner/repo)
 
 Zarkdown 是一种全新的纯文本标记语言，专为**快速写作**和**极致键盘效率**而设计。它适合用来写笔记、技术文档、博客文章，甚至可以作为配置文件的格式。
 
@@ -109,7 +110,7 @@ zarkdown my_note.zkdn -f latex
 
 ## 其它安装方式
 ### 使用发行版
-发行版中有.tar.gz、.pkg和.dmg三种形式。如果使用.pkg，在“应用程序”文件夹中会出现zarkdown.app，如果双击zarkdown.app会发现无法打开。这是因为zarkdown没有图形化界面。如果你使用zarkdown.dmg，请打开此磁盘映像，并打开磁盘映像中的.pkg。如果你使用zarkdown-2.0.1.dmg，那么你需要将zarkdown.app拖到“应用程序”文件夹（替身）中。
+发行版中有.pkg、.tar.gz和.zip形式。如果使用.pkg，你需要一直点击“继续”下载的地址为个人文件夹。.tar.gz和.zip是归档。在macOS中，你可以双击归档以打开归档实用工具进行解压缩。
 ### 使用Homebrew
 暂时无法使用`brew install zarkdown`进行安装，但是可以
 ```bash
