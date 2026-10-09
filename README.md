@@ -111,7 +111,7 @@ zarkdown my_note.zkdn -f latex
 
 ## 其它安装方式
 ### 使用发行版
-发行版中有.pkg、.tar.gz和.zip形式。如果使用.pkg，你需要一直点击“继续”下载的地址为个人文件夹。.tar.gz和.zip是归档。在macOS中，你可以双击归档以打开归档实用工具进行解压缩。
+发行版中有.pkg、.tar.gz和.zip形式。如果使用.pkg，你需要一直点击“继续”下载的地址为文稿文件夹。.tar.gz和.zip是归档。在macOS中，你可以双击归档以打开归档实用工具进行解压缩。
 ### 使用Homebrew
 暂时无法使用`brew install zarkdown`进行安装，但是可以
 ```bash
