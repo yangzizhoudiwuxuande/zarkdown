@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zarkdown"
-version = "2.0.4"
+version = "2.1.0"
 authors = [
     { name = "yangzizhoudiwuxuande", email = "yangzizhou2026@outlook.com" },
 ]
@@ -17,25 +17,17 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+dependencies = []
+
 [project.scripts]
-zarkdown = "zarkdown.core:main"
+zarkdown = "zarkdown.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/yangzizhoudiwuxuande/zarkdown"
 "Bug Tracker" = "https://github.com/yangzizhoudiwuxuande/zarkdown/issues"
 
-# ===== 以下是 pyappdist 所需配置 =====
-[tool.pyappdist]
-name = "zarkdown"
-python = "3.14"                           # 根据实际情况修改
-identifier = "com.yangzizhoudiwuxuande.zarkdown"
-manager = "requirements.txt"   # 改了这里
+[tool.setuptools.packages.find]
+where = ["src"]
 
-[[tool.pyappdist.launchers]]
-name = "zarkdown"
-entry = "zarkdown.core:main"
-
-[[tool.pyappdist.targets]]
-name = "macos"
-platform = "macos-aarch64"                # Apple Silicon 用 macos-aarch64，Intel 用 macos-x86_64
-format = "pkg"
+[tool.setuptools.package-data]
+zarkdown = ["*.py"]
