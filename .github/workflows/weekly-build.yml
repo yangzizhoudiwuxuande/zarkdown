@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - weekly
-  workflow_dispatch: # 允许在 GitHub 网页上手动点击运行
+  workflow_dispatch: # 允许在 GitHub Actions 页面手动点击运行
 
 jobs:
   build:
@@ -14,13 +14,10 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: zarkdown-windows
             asset_name: zarkdown-windows.exe
           - os: macos-latest
-            artifact_name: zarkdown-macos-arm64
             asset_name: zarkdown-macos-arm64
           - os: ubuntu-latest
-            artifact_name: zarkdown-linux
             asset_name: zarkdown-linux-amd64
 
     steps:
@@ -40,8 +37,8 @@ jobs:
 
       - name: Build Standalone Executable
         run: |
-          # 将 Zarkdown 的 cli 入口打包成单文件
-          pyinstaller --onefile --name zarkdown src/zarkdown/cli.py
+          # 关键修改：使用根目录的 run.py 作为入口打包，彻底解决相对导入报错
+          pyinstaller --onefile --name zarkdown run.py
 
       - name: Rename and Prepare Artifact
         shell: bash
@@ -56,5 +53,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}
+          name: ${{ matrix.asset_name }}
           path: dist/${{ matrix.asset_name }}
