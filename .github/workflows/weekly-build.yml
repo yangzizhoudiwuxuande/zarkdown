@@ -1,0 +1,57 @@
+name: Build Standalone Zarkdown
+
+on:
+  push:
+    branches:
+      - weekly
+  workflow_dispatch: # 允许在 GitHub Actions 页面手动点击运行
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            asset_name: zarkdown-windows.exe
+          - os: macos-latest
+            asset_name: zarkdown-macos-arm64
+          - os: ubuntu-latest
+            asset_name: zarkdown-linux-amd64
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies & PyInstaller
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -e .
+
+      - name: Build Standalone Executable
+        run: |
+          # 关键修改：使用根目录的 run.py 作为入口打包，彻底解决相对导入报错
+          pyinstaller --onefile --name zarkdown run.py
+
+      - name: Rename and Prepare Artifact
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" == "windows-latest" ]; then
+            mv dist/zarkdown.exe dist/${{ matrix.asset_name }}
+          else
+            mv dist/zarkdown dist/${{ matrix.asset_name }}
+            chmod +x dist/${{ matrix.asset_name }}
+          fi
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset_name }}
+          path: dist/${{ matrix.asset_name }}
